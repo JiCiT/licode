@@ -425,6 +425,20 @@ var listen = function () {
             }
         });
 
+        //Gets 'sendDataStreamToUser' messages on the socket in order to send messages to a user.
+        socket.on('sendDataStreamToUser', function (msg) {
+          var name = msg.name;
+          msg = msg.msg;
+          var sockets = socket.room.sockets;
+          for (var id in sockets) {
+              if (sockets.hasOwnProperty(id)) {
+                  if (io.sockets.socket(sockets[id]).user.name === name) {
+                    io.sockets.socket(sockets[id]).emit('onDataStreamUser', msg);
+                  };
+              }
+          }
+        });
+
         socket.on('signaling_message', function (msg) {
             if (socket.room.p2p) {
                 io.sockets.socket(msg.peerSocket).emit('signaling_message_peer', {streamId: msg.streamId, peerSocket: socket.id, msg: msg.msg});

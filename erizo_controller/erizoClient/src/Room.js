@@ -208,6 +208,12 @@ Erizo.Room = function (spec) {
             stream.dispatchEvent(evt);
         });
 
+        // We receive an event of new data for a user
+        that.socket.on('onDataStreamUser', function (arg) {
+            var evt = Erizo.RoomEvent({type: 'user-data', message: arg});
+            that.dispatchEvent(evt);
+        });
+
         // We receive an event of new data in one of the streams
         that.socket.on('onUpdateAttributeStream', function (arg) {
             var stream = that.remoteStreams[arg.id],
@@ -328,6 +334,11 @@ Erizo.Room = function (spec) {
         var disconnectEvt = Erizo.RoomEvent({type: "room-disconnected"});
         that.dispatchEvent(disconnectEvt);
     };
+
+    // Sends a message to specific user(s)
+    that.sendDataToUser = function(user, msg) {
+      sendMessageSocket("sendDataStreamToUser", {name: user, msg: msg});
+    }
 
     // It publishes the stream provided as argument. Once it is added it throws a
     // StreamEvent("stream-added").
