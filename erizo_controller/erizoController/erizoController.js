@@ -563,6 +563,13 @@ var listen = function () {
                 return;
             }
 
+            //if allowed_users attribute exists,
+            //then only users in allowed_users attribute are authorized to subscribe
+            var attributes = stream.getAttributes();
+            if (attributes !== undefined && attributes.allowedUsers !== undefined && attributes.allowedUsers.indexOf(socket.user.name) === -1) {
+              return callback(null, 'Unauthorized');
+            }
+
             if (stream.hasData() && options.data !== false) {
                 stream.addDataSubscriber(socket.id);
             }
