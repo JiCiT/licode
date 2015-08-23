@@ -77,7 +77,7 @@ config.erizoController.interval_time_keepAlive = 1000; // default value: 1000
 // Roles to be used by services
 config.erizoController.roles =
 {"presenter": {"publish": true, "subscribe": true, "record": true},
-    "viewer": {"subscribe": true},
+    "viewer": {"subscribe": true, "suppress-events": ["user-added"]},
     "viewerWithData": {"subscribe": true, "publish": {"audio": false, "video": false, "screen": false, "data": true}}}; // default value: {"presenter":{"publish": true, "subscribe":true, "record":true}, "viewer":{"subscribe":true}, "viewerWithData":{"subscribe":true, "publish":{"audio":false,"video":false,"screen":false,"data":true}}}
 
 // If true, erizoController sends report to rabbitMQ queue "report_handler" 

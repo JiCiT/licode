@@ -157,6 +157,13 @@ var sendMsgToRoom = function (room, type, arg) {
         id;
     for (id in sockets) {
         if (sockets.hasOwnProperty(id)) {
+            // if user has this type of event supressed,
+            // then don't send the event
+            if (io.sockets.socket(sockets[id]).user.permissions[Permission.SUPPRESS_EVENTS] && io.sockets.socket(sockets[id]).user.permissions[Permission.SUPPRESS_EVENTS].indexOf(Permission.event[type]) !== -1) {
+                log.debug('Supressing event ' + Permission.event[type] + ' for user ' + io.sockets.socket(sockets[id]).user.name);
+                continue;
+            }
+
             log.info('Sending message to', sockets[id], 'in room ', room.id);
             io.sockets.socket(sockets[id]).emit(type, arg);
         }
