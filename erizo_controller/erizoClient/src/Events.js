@@ -78,6 +78,7 @@ Erizo.RoomEvent = function (spec) {
     var that = Erizo.LicodeEvent(spec);
 
     // A list with the streams that are published in the room.
+    that.user = spec.user;
     that.streams = spec.streams;
     that.message = spec.message;
 

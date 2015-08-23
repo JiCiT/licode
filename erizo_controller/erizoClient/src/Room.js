@@ -107,6 +107,12 @@ Erizo.Room = function (spec) {
         console.log(token);
         that.socket = io.connect(token.host, {reconnect: false, secure: token.secure, 'force new connection': true});
 
+        // We receive an event for a new user added to room.
+        that.socket.on('onAddUser', function (arg) {
+            evt = Erizo.RoomEvent({type: "user-added", user: arg});
+            that.dispatchEvent(evt);
+        });
+
         // We receive an event with a new stream in the room.
         // type can be "media" or "data"
         that.socket.on('onAddStream', function (arg) {

@@ -377,6 +377,8 @@ var listen = function () {
                             amqper.broadcast('event', {room: tokenDB.room, user: socket.id, type: 'user_connection', timestamp:timeStamp.getTime()});
                         }
 
+                        sendMsgToRoom(socket.room, 'onAddUser', socket.user);
+
                         for (index in socket.room.streams) {
                             if (socket.room.streams.hasOwnProperty(index)) {
                                 if (socket.room.streams[index].status == PUBLISHER_READY){
